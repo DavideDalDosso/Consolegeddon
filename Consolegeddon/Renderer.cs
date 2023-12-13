@@ -10,7 +10,37 @@ class Renderer
     {
         int consoleTop = Console.CursorTop;
         int consoleLeft = Console.CursorLeft;
-        int clampedWidth = width > Console.WindowWidth ? Console.WindowWidth : width;
+
+        int behindX = -x;
+        if (behindX > 0)
+        {
+            if (behindX >= width) return;
+            x = 0;
+            width -= behindX;
+        }
+
+        int pastX = (x + width) - Console.WindowWidth;
+        if (pastX > 0)
+        {
+            if (x >= Console.WindowWidth) return;
+            width -= pastX;
+        }
+
+        int behindY = -y;
+        if (behindY > 0)
+        {
+            if (behindY >= height) return;
+            y = 0;
+            height -= behindY;
+        }
+
+        int pastY = (y + height) - Console.WindowHeight;
+        if (pastY > 0)
+        {
+            if (y >= Console.WindowHeight) return;
+            height -= pastY;
+        }
+
         for (; height > 0;)
         {
             --height;
@@ -22,17 +52,38 @@ class Renderer
 
     public void Text(string message, int x, int y)
     {
+        if (y < 0 || y >= Console.WindowHeight)
+        {
+            return;
+        }
+
+        int behindX = -x;
+        if (behindX > 0)
+        {
+            if (behindX >= message.Length) return;
+            x = 0;
+            message = message.Substring(behindX);
+        }
+
+        int pastX = (x + message.Length) - Console.WindowWidth;
+        if(pastX > 0)
+        {
+            if(x >= Console.WindowWidth) return;
+            message = message.Substring(0, message.Length - pastX);
+        }
+
         Console.SetCursorPosition(x, y);
         Console.Write(message);
     }
 
     public void Text(char character, int x, int y)
     {
+        if (x < 0 || x >= Console.WindowWidth || y < 0 || y >= Console.WindowHeight) return;
         Console.SetCursorPosition(x, y);
         Console.Write(character);
     }
 
-    public void Circle(char character, float x, float y, float radius, float heightFactor)
+    public void Circle(char character, float x, float y, float radius)
     {
 
         float a = radius * 2;

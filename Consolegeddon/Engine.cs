@@ -16,9 +16,14 @@ class Engine
         DateTime time2;
 
         float updateTimer = 0;
+        float renderTimer = 0;
         float secondTimer = 0;
 
         int updates = 0;
+        int renders = 0;
+
+        int bufferedUpdates = 0;
+        int bufferedRenders = 0;
 
         // Here we find DeltaTime in while loop
         while (true)
@@ -28,31 +33,43 @@ class Engine
             //We convert the date instances into numbers we can subtract with eachother
             float deltaTime = (time2.Ticks - time1.Ticks) / 10000000f;
             updateTimer += deltaTime;
-            if(updateTimer > 1f/60f)
+            renderTimer += deltaTime;
+            if(updateTimer > 1f / 30f)
             {
+
                 if (Console.KeyAvailable)
                 {
                     input.Register(Console.ReadKey(true));
                 }
 
-                input.UpdateAvailable();
-
+                secondTimer += updateTimer;
+                if (updateTimer > 0.5f) updateTimer = 0.5f;
                 updates++;
 
-                renderer.Rect(' ', 0, 0, Console.WindowWidth, Console.WindowHeight);
+                input.UpdateAvailable();
 
                 currentScene?.Update(updateTimer);
-                currentScene?.Render(renderer);
 
-                secondTimer += updateTimer;
-                updateTimer -= 1f / 60f;
+                updateTimer -= 1f / 30f;
 
                 if (secondTimer > 1)
                 {
                     secondTimer -= 1;
-                    renderer.Text(updates + " FPS", 0, 0);
+                    bufferedUpdates = updates;
+                    bufferedRenders = renders;
                     updates = 0;
+                    renders = 0;
                 }
+            }
+            if( renderTimer > 1f/5f)
+            {
+                renders++;
+
+                renderer.Rect(' ', 0, 0, Console.WindowWidth, Console.WindowHeight);
+                currentScene?.Render(renderer);
+                renderer.Text(bufferedRenders + " FPS " + bufferedUpdates + "UPD", 0, 0);
+
+                renderTimer -= 1f / 5f;
             }
 
             time1 = time2;
