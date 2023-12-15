@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 class Turret : Building
 {
-    private Scene? scene;
+    public float shootCooldown { get; set; }
+    private float shootTimer = 0;
+    private bool located;
 
     public override void Init(Scene scene)
     {
@@ -23,12 +25,37 @@ class Turret : Building
         int normX = (int)MathF.Round(x);
         int normY = (int)MathF.Round(y);
 
-        renderer.Circle('T', normX, normY, 3f);
-        renderer.Text('O', normX, normY);
+        renderer.Circle('T', normX, normY, size);
+        if (located)
+        {
+            renderer.Text('O', normX, normY);
+        } else
+        {
+            renderer.Text('X', normX, normY);
+        }
     }
 
     public override void Update(float dt)
     {
+        shootTimer += dt;
+        if (shootTimer < shootCooldown) return;
+        shootTimer -= shootCooldown;
 
+        Asteroid closest = scene.GetClosest<Asteroid>("Asteroid", x, y);
+
+        located = closest!= null;
+
+        if (located)
+        {
+            closest.Damage(1);
+
+            ShootTracer tracer = new ShootTracer();
+            tracer.life = 0.5f;
+            tracer.x1 = x;
+            tracer.y1 = y;
+            tracer.x2 = closest.x;
+            tracer.y2 = closest.y;
+            scene.Add(tracer);
+        }
     }
 }

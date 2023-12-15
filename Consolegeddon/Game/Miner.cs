@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 class Miner : Building
 {
-    private Scene? scene;
     private MaterialSystem? materialSystem;
 
     public override void Init(Scene scene)
@@ -24,12 +23,12 @@ class Miner : Building
         int normX = (int)MathF.Round(x);
         int normY = (int)MathF.Round(y);
 
-        renderer.Circle('M', normX, normY, 2f);
+        renderer.Circle('M', normX, normY, size);
         renderer.Text('O', normX, normY);
     }
 
     public override void Update(float dt)
     {
-        materialSystem.materials += dt * 1f;
+        materialSystem.materials += dt * 2f;
     }
 }

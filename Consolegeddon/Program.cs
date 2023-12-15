@@ -8,6 +8,8 @@ public class Program{
         Console.SetWindowSize(Console.BufferWidth, Console.BufferHeight);
 
         Engine engine = new Engine();
+        engine.maxFPS = 5;
+        engine.maxUpdates = 60;
 
         Scene scene = new Scene(engine);
 
@@ -22,9 +24,16 @@ public class Program{
         scene.Add(buildSystem);
 
         AsteroidSystem asteroidSystem = new AsteroidSystem();
-        asteroidSystem.spawnThreshold = 10;
+        asteroidSystem.spawnCooldown = 10;
         asteroidSystem.spawnSize = 2;
+        asteroidSystem.spawnSpeed = 0.1f;
+        asteroidSystem.spawnHealth = 3;
         scene.Add(asteroidSystem);
+
+        DifficultySystem difficultySystem = new DifficultySystem();
+        difficultySystem.nextDifficultyCooldown = 15;
+        difficultySystem.nextTierCooldown = 10;
+        scene.Add(difficultySystem);
 
         Player player = new Player();
         player.x = 120;

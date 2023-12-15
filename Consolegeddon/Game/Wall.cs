@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 class Wall : Building
 {
-    private Scene scene;
     public override void Init(Scene scene)
     {
         this.scene = scene;
@@ -19,7 +18,7 @@ class Wall : Building
         int normX = (int)MathF.Round(x);
         int normY = (int)MathF.Round(y);
 
-        renderer.Circle('W', normX, normY, 2f);
+        renderer.Circle('W', normX, normY, size);
         renderer.Text('O', normX, normY);
     }
 

@@ -10,7 +10,9 @@ class AsteroidSystem : GameObject
     private Scene scene;
     private float timer = 0;
     public float spawnSize { get; set; }
-    public float spawnThreshold { get; set; }
+    public float spawnCooldown { get; set; }
+    public float spawnSpeed { get; set; }
+    public int spawnHealth { get; set; }
     private Random random = new Random();
     public override void Init(Scene scene)
     {
@@ -20,7 +22,7 @@ class AsteroidSystem : GameObject
 
     public override void Render(Renderer renderer)
     {
-        renderer.Text("Asteroid CD: " + (spawnThreshold - timer), 0, 2);
+        renderer.Text("Asteroid CD: " + (spawnCooldown - timer), 0, 2);
     }
 
     public override void Start()
@@ -31,14 +33,18 @@ class AsteroidSystem : GameObject
     public override void Update(float dt)
     {
         timer += dt;
-        if(timer >= spawnThreshold)
+        if(timer >= spawnCooldown)
         {
-            timer -= spawnThreshold;
+            timer -= spawnCooldown;
 
             Asteroid asteroid = new Asteroid();
             asteroid.x = random.Next(220);
             asteroid.y = -spawnSize;
             asteroid.size = spawnSize;
+            asteroid.speed = spawnSpeed;
+            asteroid.velX = random.NextSingle() * 2 - 1;
+            asteroid.velY = random.NextSingle() * 2 - 1;
+            asteroid.maxHealth = spawnHealth;
             scene.Add(asteroid);
         }
     }

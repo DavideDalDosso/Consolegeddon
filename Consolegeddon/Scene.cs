@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 class Scene
 {
-    private List<GameObject> pendingObjects = new List<GameObject>();
+    private List<GameObject> pendingAddObjects = new List<GameObject>();
+    private List<GameObject> pendingRemoveObjects = new List<GameObject>();
     private List<GameObject> gameObjects = new List<GameObject>();
     private Dictionary<string, List<GameObject>> tagObjects = new Dictionary<string, List<GameObject>>();
     private Engine engine;
@@ -31,24 +32,29 @@ class Scene
     }
     public void Add(GameObject gameObject)
     {
-        pendingObjects.Add(gameObject);
+        pendingAddObjects.Add(gameObject);
         gameObject.Init(this);
     }
     public void ApplyPending()
     {
-        foreach( var gameObject in pendingObjects)
+        foreach (var gameObject in pendingRemoveObjects)
+        {
+            gameObjects.Remove(gameObject);
+        }
+        foreach ( var gameObject in pendingAddObjects)
         {
             gameObjects.Add(gameObject);
         }
-        foreach (var gameObject in pendingObjects)
+        foreach (var gameObject in pendingAddObjects)
         {
             gameObject.Start();//WARNING Do not destroy the added objects in the same frame they're added
         }
-        pendingObjects.Clear();
+        pendingAddObjects.Clear();
+        pendingRemoveObjects.Clear();
     }
     public void Remove<T>(T gameObject) where T : GameObject
     {
-        gameObjects.Remove(gameObject);
+        pendingRemoveObjects.Add(gameObject);
         foreach(string tag in gameObject.tags)
         {
             if (tagObjects.ContainsKey(tag))
@@ -74,7 +80,7 @@ class Scene
         }
         return array;
     }
-    public T GetSingleton<T>(string tag) where T : GameObject
+    public T? GetSingleton<T>(string tag) where T : GameObject
     {
         if (!tagObjects.ContainsKey(tag)) return null;
         return (T)tagObjects[tag][0];
@@ -86,5 +92,30 @@ class Scene
             tagObjects.Add(tag, new List<GameObject>());
         }
         tagObjects[tag].Add(gameObject);
+        gameObject.tags.Add(tag);
+    }
+    public T? GetClosest<T>(string tag, float x, float y) where T: GameObject
+    {
+        T[] objects = GetGameObjects<T>(tag);
+
+        if(objects.Length == 0) return null;
+
+        int closestIndex = 0;
+        float closestDistance = float.MaxValue;
+
+        for(int i=0; i < objects.Length; i++)
+        {
+            float offsetX = objects[i].x - x;
+            float offsetY = objects[i].y - y;
+            float distanceSqrt = offsetX * offsetX + offsetY * offsetY;
+
+            if(distanceSqrt < closestDistance)
+            {
+                closestDistance = distanceSqrt;
+                closestIndex = i;
+            }
+        }
+
+        return objects[closestIndex];
     }
 }

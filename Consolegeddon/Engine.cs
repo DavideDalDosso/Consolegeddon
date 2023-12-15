@@ -10,6 +10,8 @@ class Engine
     private Scene? currentScene;
     private Renderer renderer = new Renderer();
     private EngineInput input = new EngineInput();
+    public int maxFPS {  get; set; }
+    public int maxUpdates { get; set; }
     public void Start()
     {
         DateTime time1 = DateTime.Now;
@@ -34,7 +36,7 @@ class Engine
             float deltaTime = (time2.Ticks - time1.Ticks) / 10000000f;
             updateTimer += deltaTime;
             renderTimer += deltaTime;
-            if(updateTimer > 1f / 30f)
+            if(updateTimer > 1f / maxUpdates)
             {
 
                 if (Console.KeyAvailable)
@@ -50,7 +52,7 @@ class Engine
 
                 currentScene?.Update(updateTimer);
 
-                updateTimer -= 1f / 30f;
+                updateTimer -= 1f / maxUpdates;
 
                 if (secondTimer > 1)
                 {
@@ -61,7 +63,7 @@ class Engine
                     renders = 0;
                 }
             }
-            if( renderTimer > 1f/5f)
+            if( renderTimer > 1f / maxFPS)
             {
                 renders++;
 
@@ -69,7 +71,7 @@ class Engine
                 currentScene?.Render(renderer);
                 renderer.Text(bufferedRenders + " FPS " + bufferedUpdates + "UPD", 0, 0);
 
-                renderTimer -= 1f / 5f;
+                renderTimer -= 1f / maxFPS;
             }
 
             time1 = time2;

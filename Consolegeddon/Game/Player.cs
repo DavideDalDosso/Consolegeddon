@@ -28,6 +28,7 @@ class Player : GameObject
         renderer.Text('P', normX, normY);
 
         renderer.Text("Playerr", normX - 3, normY - 2);
+        //renderer.Line('P', normX, normY, normX-20, normY-10);
         //renderer.Rect('#', normX - 3, normY - 5, 7, 3); //DEBUG REASONS
     }
 

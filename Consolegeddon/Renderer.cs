@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 class Renderer
 {
+    private BufferedStream stream = new BufferedStream(Console.OpenStandardOutput(), 0x15000);
     public void Rect(char character, int x, int y, int width, int height)
     {
         int consoleTop = Console.CursorTop;
@@ -98,10 +99,79 @@ class Renderer
 
                 if ( (circleX * circleX) / (a * a) + (circleY * circleY) / (b * b) <= 1) {
                     Text(character, (int)MathF.Round(circleX + x), (int)MathF.Round(circleY + y));
-                } else {
+                }/* else {
                     Text(' ', (int)MathF.Round(circleX + x), (int)MathF.Round(circleY + y));
-                }
+                } USELESS */
             }
         }
     }
+
+    public void LineHigh(char character, int x1, int y1, int x2, int y2)
+    {
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+        int xi = 1;
+        if (dx < 0) {
+            xi = -1;
+            dx = -dx;
+        }
+        int D = (2 * dx) - dy;
+        int x = x1;
+
+        for (int y = y1; y < y2; y++)
+        {
+            Text(character, x, y);
+            if (D > 0) {
+                x = x + xi;
+                D = D + (2 * (dx - dy));
+            } else {
+                D = D + 2 * dx;
+            }
+        }
+
+    }
+
+    public void LineLow(char character, int x1, int y1, int x2, int y2)
+    {
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+        int yi = 1;
+        if (dy < 0) {
+            yi = -1;
+            dy = -dy;
+        }
+        int D = (2 * dy) - dx;
+        int y = y1;
+
+        for (int x = x1; x < x2; x++)
+        {
+            Text(character, x, y);
+            if (D > 0)
+            {
+                y = y + yi;
+                D = D + (2 * (dy - dx));
+            }
+            else
+            {
+                D = D + 2 * dy;
+            }
+        }
+    }
+
+    public void Line(char character, int x1, int y1, int x2, int y2)
+    {
+        if ( MathF.Abs(y2 - y1) < MathF.Abs(x2 - x1) ) {
+            if (x1 > x2) {
+                LineLow(character, x2, y2, x1, y1);
+            } else {
+                LineLow(character, x1, y1, x2, y2);
+            }
+        } else {
+            if (y1 > y2) {
+                LineHigh(character, x2, y2, x1, y1);
+            } else {
+                LineHigh(character, x1, y1, x2, y2);
+            }
+        }
+    }   
 }

@@ -51,6 +51,7 @@ class BuildSystem : GameObject
             miner.x = x;
             miner.y = y;
             miner.health = 3;
+            miner.size = 2;
 
             scene.Add(miner);
         }
@@ -66,6 +67,8 @@ class BuildSystem : GameObject
             turret.x = x;
             turret.y = y;
             turret.health = 3;
+            turret.shootCooldown = 0.5f;
+            turret.size = 3;
 
             scene.Add(turret);
         }
@@ -80,7 +83,8 @@ class BuildSystem : GameObject
             Wall wall = new Wall();
             wall.x = x;
             wall.y = y;
-            wall.health = 5;
+            wall.health = 10;
+            wall.size = 3;
 
             scene.Add(wall);
         }
