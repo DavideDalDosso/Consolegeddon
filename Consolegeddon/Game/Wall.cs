@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 class Wall : Building
 {
+
     public override void Init(Scene scene)
     {
-        this.scene = scene;
+        base.Init(scene);
         scene.AddTag("Wall", this);
         scene.AddTag("Building", this);
     }
-
     public override void Render(Renderer renderer)
     {
         int normX = (int)MathF.Round(x);
@@ -24,7 +24,7 @@ class Wall : Building
 
     public override void Start()
     {
-        
+
     }
 
     public override void Update(float dt)

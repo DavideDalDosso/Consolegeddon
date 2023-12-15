@@ -10,7 +10,7 @@ class Miner : Building
 
     public override void Init(Scene scene)
     {
-        this.scene = scene;
+        base.Init(scene);
         scene.AddTag("Miner", this);
         scene.AddTag("Building", this);
     }

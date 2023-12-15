@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 class AsteroidSystem : GameObject
 {
-    private Scene scene;
+    public bool running = true;
     private float timer = 0;
     public float spawnSize { get; set; }
     public float spawnCooldown { get; set; }
@@ -32,6 +32,7 @@ class AsteroidSystem : GameObject
 
     public override void Update(float dt)
     {
+        if (!running) return;
         timer += dt;
         if(timer >= spawnCooldown)
         {

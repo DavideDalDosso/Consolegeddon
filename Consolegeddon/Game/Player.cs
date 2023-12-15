@@ -9,12 +9,7 @@ class Player : GameObject
 {
     public float speed = 15;
     private BuildSystem buildSystem;
-    private Scene? scene;
 
-    public override void Init(Scene scene)
-    {
-        this.scene = scene;
-    }
     public override void Start()
     {
         buildSystem = scene.GetSingleton<BuildSystem>("BuildSystem");

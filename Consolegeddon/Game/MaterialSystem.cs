@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 class MaterialSystem : GameObject
 {
+    public bool running = true;
     public float materials { get; set; }
-    private Scene scene;
 
     public override void Init(Scene scene)
     {
@@ -26,6 +26,7 @@ class MaterialSystem : GameObject
 
     public override void Update(float dt)
     {
+        if (!running) return;
         materials += dt;
     }
 }

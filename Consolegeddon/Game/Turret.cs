@@ -9,10 +9,9 @@ class Turret : Building
     public float shootCooldown { get; set; }
     private float shootTimer = 0;
     private bool located;
-
     public override void Init(Scene scene)
     {
-        this.scene = scene;
+        base.Init(scene);
         scene.AddTag("Turret", this);
         scene.AddTag("Building", this);
     }

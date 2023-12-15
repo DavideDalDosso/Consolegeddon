@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 class BuildSystem : GameObject
 {
+    public bool running = true;
     public float minerPrice { get; set; }
     public float turretPrice { get; set; }
     public float wallPrice { get; set; }
@@ -35,6 +36,7 @@ class BuildSystem : GameObject
 
     public override void Update(float dt)
     {
+        if (!running) return;
         int miners = scene.GetGameObjects<Miner>("Miner").Length;
         increasedMinerPrice = minerPrice + minerPrice * miners * miners * 0.5f;
         int turrets = scene.GetGameObjects<Turret>("Turret").Length;
@@ -43,7 +45,8 @@ class BuildSystem : GameObject
 
     public void SpawnMiner(float x, float y)
     {
-        if(materialSystem.materials >= increasedMinerPrice)
+        if (!running) return;
+        if (materialSystem.materials >= increasedMinerPrice)
         {
             materialSystem.materials -= increasedMinerPrice;
 
@@ -59,7 +62,8 @@ class BuildSystem : GameObject
 
     public void SpawnTurret(float x, float y)
     {
-        if(materialSystem.materials >= turretPrice)
+        if (!running) return;
+        if (materialSystem.materials >= turretPrice)
         {
             materialSystem.materials -= turretPrice;
 
@@ -76,6 +80,7 @@ class BuildSystem : GameObject
 
     public void SpawnWall(float x, float y)
     {
+        if (!running) return;
         if (materialSystem.materials >= wallPrice)
         {
             materialSystem.materials -= wallPrice;

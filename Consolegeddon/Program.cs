@@ -4,7 +4,7 @@ public class Program{
 
     public static void Main(string[] args)
     {
-        Console.SetBufferSize(240, 60);
+        Console.SetBufferSize(240, 63);
         Console.SetWindowSize(Console.BufferWidth, Console.BufferHeight);
 
         Engine engine = new Engine();
@@ -34,6 +34,9 @@ public class Program{
         difficultySystem.nextDifficultyCooldown = 15;
         difficultySystem.nextTierCooldown = 10;
         scene.Add(difficultySystem);
+
+        DefeatSystem defeatSystem = new DefeatSystem();
+        scene.Add(defeatSystem);
 
         Player player = new Player();
         player.x = 120;

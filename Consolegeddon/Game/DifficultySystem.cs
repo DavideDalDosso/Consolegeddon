@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 class DifficultySystem : GameObject
 {
-    private Scene? scene;
+    public bool running = true;
     public float nextDifficultyCooldown { get; set; }
     private float nextDifficulty { get; set; }
     public int nextTierCooldown { get; set; }
     private int nextTier { get; set; }
     private int difficulty = 0;
     private AsteroidSystem? asteroidSystem { get; set; }
-    public override void Init(Scene scene)
-    {
-        this.scene = scene;
-    }
 
     public override void Render(Renderer renderer)
     {
@@ -26,7 +22,11 @@ class DifficultySystem : GameObject
         renderer.Text("Size: " + asteroidSystem.spawnSize, 0, 8);
         renderer.Text("Cooldown: " + asteroidSystem.spawnCooldown, 0, 9);
     }
-
+    public override void Init(Scene scene)
+    {
+        base.Init(scene);
+        scene.AddTag("DifficultySystem", this);
+    }
     public override void Start()
     {
         asteroidSystem = scene.GetSingleton<AsteroidSystem>("AsteroidSystem");
@@ -36,6 +36,8 @@ class DifficultySystem : GameObject
 
     public override void Update(float dt)
     {
+        if (!running) return;
+
         nextDifficulty -= dt;
         if(nextDifficulty <= 0)
         {
@@ -55,7 +57,7 @@ class DifficultySystem : GameObject
                 asteroidSystem.spawnSize *= 3;
                 asteroidSystem.spawnCooldown *= 4f;
                 asteroidSystem.spawnHealth *= 2;
-                asteroidSystem.spawnSpeed *= 0.6f;
+                asteroidSystem.spawnSpeed *= 0.7f;
             }
         }
     }
