@@ -11,6 +11,7 @@ class Scene
     private List<GameObject> gameObjects = new List<GameObject>();
     private Dictionary<string, List<GameObject>> tagObjects = new Dictionary<string, List<GameObject>>();
     private Engine engine;
+    private Random random = new Random();
     public Scene(Engine engine)
     {
         this.engine = engine;
@@ -118,5 +119,10 @@ class Scene
         }
 
         return objects[closestIndex];
+    }
+
+    public Random GetRandom()
+    {
+        return random;
     }
 }

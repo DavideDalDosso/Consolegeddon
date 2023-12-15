@@ -13,7 +13,6 @@ class AsteroidSystem : GameObject
     public float spawnCooldown { get; set; }
     public float spawnSpeed { get; set; }
     public int spawnHealth { get; set; }
-    private Random random = new Random();
     public override void Init(Scene scene)
     {
         this.scene = scene;
@@ -38,6 +37,8 @@ class AsteroidSystem : GameObject
         if(timer >= spawnCooldown)
         {
             timer -= spawnCooldown;
+
+            var random = scene.GetRandom();
 
             Asteroid asteroid = new Asteroid();
             asteroid.x = random.Next(220);

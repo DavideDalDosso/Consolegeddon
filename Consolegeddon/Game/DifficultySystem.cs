@@ -52,7 +52,7 @@ class DifficultySystem : GameObject
 
             if(nextTier <= 0)
             {
-                nextTier = nextTierCooldown + difficulty;
+                nextTier = nextTierCooldown;
 
                 asteroidSystem.spawnSize *= 3;
                 asteroidSystem.spawnCooldown *= 4f;

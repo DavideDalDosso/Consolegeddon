@@ -39,6 +39,7 @@ class Turret : Building
         shootTimer += dt;
         if (shootTimer < shootCooldown) return;
         shootTimer -= shootCooldown;
+        shootTimer += scene.GetRandom().NextSingle() * 0.2f - 0.1f;
 
         Asteroid closest = scene.GetClosest<Asteroid>("Asteroid", x, y);
 
@@ -49,7 +50,7 @@ class Turret : Building
             closest.Damage(1);
 
             ShootTracer tracer = new ShootTracer();
-            tracer.life = 0.5f;
+            tracer.life = 0.2f;
             tracer.x1 = x;
             tracer.y1 = y;
             tracer.x2 = closest.x;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-class Wall : Building
+class Forcefield : Building
 {
 
     public override void Init(Scene scene)
@@ -17,8 +17,8 @@ class Wall : Building
         int normX = (int)MathF.Round(x);
         int normY = (int)MathF.Round(y);
 
-        renderer.Circle('W', normX, normY, size);
-        renderer.Text('O', normX, normY);
+        renderer.Circle('F', normX, normY, size/3);
+        renderer.Text(health.ToString(), normX, normY);
     }
 
     public override void Start()

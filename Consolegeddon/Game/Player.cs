@@ -60,7 +60,7 @@ class Player : GameObject
         }
         if (input.KeyAvailable(ConsoleKey.E))
         {
-            buildSystem.SpawnWall(x, y);
+            buildSystem.SpawnForcefield(x, y);
         }
     }
 

@@ -9,7 +9,7 @@ class BuildSystem : GameObject
     public bool running = true;
     public float minerPrice { get; set; }
     public float turretPrice { get; set; }
-    public float wallPrice { get; set; }
+    public float forcefieldPrice { get; set; }
     private float increasedMinerPrice = 0;
     private float increasedTurretPrice = 0;
     private MaterialSystem? materialSystem;
@@ -27,11 +27,14 @@ class BuildSystem : GameObject
     public override void Render(Renderer renderer)
     {
         float clampMiner = MathF.Round(increasedMinerPrice, 1);
-        renderer.Text("[R] Miner: " + clampMiner, 220, 2);
+        renderer.Text("[R] Miner: " + clampMiner, 180, 2);
+        renderer.Text("Increases materials per second by 2 [3 hp]", 180, 3);
         float clampTurret = MathF.Round(increasedTurretPrice, 1);
-        renderer.Text("[Q] Turret: " + clampTurret, 220, 3);
-        float clampWall = MathF.Round(wallPrice, 1);
-        renderer.Text("[E] Wall: " + clampWall, 220, 4);
+        renderer.Text("[Q] Turret: " + clampTurret, 180, 4);
+        renderer.Text("Deals 1 damage every second [3 hp]", 180, 5);
+        float clampWall = MathF.Round(forcefieldPrice, 1);
+        renderer.Text("[E] Forcefield: " + clampWall, 180, 6);
+        renderer.Text("Is able to block asteroids from x3 it's radius [25 hp]", 180, 7);
     }
 
     public override void Update(float dt)
@@ -78,18 +81,18 @@ class BuildSystem : GameObject
         }
     }
 
-    public void SpawnWall(float x, float y)
+    public void SpawnForcefield(float x, float y)
     {
         if (!running) return;
-        if (materialSystem.materials >= wallPrice)
+        if (materialSystem.materials >= forcefieldPrice)
         {
-            materialSystem.materials -= wallPrice;
+            materialSystem.materials -= forcefieldPrice;
 
-            Wall wall = new Wall();
+            Forcefield wall = new Forcefield();
             wall.x = x;
             wall.y = y;
-            wall.health = 10;
-            wall.size = 3;
+            wall.health = 25;
+            wall.size = 9;
 
             scene.Add(wall);
         }

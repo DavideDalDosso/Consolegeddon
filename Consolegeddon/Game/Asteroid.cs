@@ -13,7 +13,6 @@ class Asteroid : GameObject, IDamageable
     public int health { get; set; }
     public int maxHealth { get; set; }
     private Scene? scene;
-    private Random random = new Random();
     public override void Init(Scene scene)
     {
         this.scene = scene;
@@ -58,7 +57,7 @@ class Asteroid : GameObject, IDamageable
             float offsetY = building.y - y;
             float distancePow = offsetX * offsetX + offsetY * offsetY;
 
-            if (MathF.Sqrt(distancePow) < size + building.size + 1)
+            if (MathF.Sqrt(distancePow) < size + building.size + 2)
             {
                 y += 1;
                 Damage(10);
@@ -76,6 +75,8 @@ class Asteroid : GameObject, IDamageable
             scene.Remove(this);
 
             if (size < 1.4f) return;
+
+            var random = scene.GetRandom();
 
             for(int i=0; i < 3; i++)
             {

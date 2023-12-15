@@ -20,7 +20,7 @@ public class Program{
         BuildSystem buildSystem = new BuildSystem();
         buildSystem.minerPrice = 20;
         buildSystem.turretPrice = 100;
-        buildSystem.wallPrice = 50;
+        buildSystem.forcefieldPrice = 150;
         scene.Add(buildSystem);
 
         AsteroidSystem asteroidSystem = new AsteroidSystem();
