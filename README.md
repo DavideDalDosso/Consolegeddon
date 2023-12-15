@@ -1,12 +1,10 @@
 # Consolegeddon
 
 Known bugs:
-Lag: causing the game to accidentally not tag properly causing them to not be targeted by turrets nor count towards defeat;
-Causing the game to believe there are no miners nor turrets in field causing it to have the base cost.
 
-Right click somehow is automatically binded to [E] which causes to put walls.
+Right click somehow is automatically binded to [E] which causes to put walls every tick.
 
-Left click causes the program to lag until next input which allows to artificially cause the previously lag related issues to occur on command.
+Left click causes the program to lag, it should not show any big issues.
 
 
 TODO:
