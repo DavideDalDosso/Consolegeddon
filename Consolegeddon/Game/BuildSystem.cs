@@ -63,9 +63,9 @@ class BuildSystem : GameObject
     public void SpawnTurret(float x, float y)
     {
         if (!running) return;
-        if (materialSystem.materials >= turretPrice)
+        if (materialSystem.materials >= increasedTurretPrice)
         {
-            materialSystem.materials -= turretPrice;
+            materialSystem.materials -= increasedTurretPrice;
 
             Turret turret = new Turret();
             turret.x = x;

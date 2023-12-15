@@ -36,6 +36,7 @@ class Asteroid : GameObject, IDamageable
 
     public override void Update(float dt)
     {
+        if(health > 0) scene.AddTag("Asteroid", this);//WORKAROUND FOR LAG
         x += velX * speed;
         y += velY * speed;
 
@@ -81,7 +82,7 @@ class Asteroid : GameObject, IDamageable
                 Asteroid asteroid = new Asteroid();
                 asteroid.x = x;
                 asteroid.y = y;
-                asteroid.size = size / 2;
+                asteroid.size = MathF.Ceiling( size / 2 );
                 asteroid.speed = speed * 1.2f;
                 asteroid.velX = random.NextSingle() * 2 - 1;
                 asteroid.velY = random.NextSingle() * 2 - 1;

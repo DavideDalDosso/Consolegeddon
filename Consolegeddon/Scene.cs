@@ -91,6 +91,7 @@ class Scene
         {
             tagObjects.Add(tag, new List<GameObject>());
         }
+        if ( tagObjects[tag].Contains(gameObject) ) return; //A workaround for spamming addTag to prevent the effect of lag
         tagObjects[tag].Add(gameObject);
         gameObject.tags.Add(tag);
     }

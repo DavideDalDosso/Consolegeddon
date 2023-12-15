@@ -27,6 +27,6 @@ class MaterialSystem : GameObject
     public override void Update(float dt)
     {
         if (!running) return;
-        materials += dt;
+        materials += dt * 1.5f;
     }
 }

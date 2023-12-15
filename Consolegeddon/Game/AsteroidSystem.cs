@@ -32,6 +32,7 @@ class AsteroidSystem : GameObject
 
     public override void Update(float dt)
     {
+        scene.AddTag("AsteroidSystem", this);
         if (!running) return;
         timer += dt;
         if(timer >= spawnCooldown)

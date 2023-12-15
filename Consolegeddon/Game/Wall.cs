@@ -10,7 +10,6 @@ class Wall : Building
     public override void Init(Scene scene)
     {
         base.Init(scene);
-        scene.AddTag("Wall", this);
         scene.AddTag("Building", this);
     }
     public override void Render(Renderer renderer)
